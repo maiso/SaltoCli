@@ -75,7 +75,6 @@ void SaltoCli::async_write_complete(const boost::system::error_code& error)
   
 void SaltoCli::close()
 {
-    std::cout << "Closing application";
     in.close();
     out.close();
 }

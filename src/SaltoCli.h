@@ -8,7 +8,6 @@
 
 //Project includes
 #include "Console.h"
-#include "IConsoleObserver.h"
 
 namespace posix = boost::asio::posix;
 namespace asio = boost::asio;
