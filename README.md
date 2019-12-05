@@ -3,7 +3,7 @@ Assignment to write a CLI tool for salto
 
 ## How to build the project
 
-First install python3 and ninja: `sudo apt-get install python3 python3-pip python3-setuptools python3-wheel ninja-build`
+First install python3 and ninja: `sudo apt-get install python3 python3-pip python3-setuptools python3-wheel ninja-build libboost-all-dev`
 
 Then install the buildsstem meson: `pip3 install --user meson`
 
