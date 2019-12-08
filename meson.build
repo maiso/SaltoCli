@@ -10,9 +10,4 @@ gmock_dep = gtest_proj.get_variable('gmock_dep')
 
 subdir('src')
 
-exe = executable('SaltoCLI', ['main.cpp'], 
-                 dependencies : [json_proj_dep, SaltoCli_dep], 
-                 cpp_args : '-std=c++17' , 
-                 )
-
 subdir('test')

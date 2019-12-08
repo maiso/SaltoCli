@@ -6,7 +6,6 @@ SaltoCli::SaltoCli(boost::asio::io_service& io_service)
   out(io_service, ::dup(STDOUT_FILENO)),
   m_io_service(io_service)
 {
-    //m_Console.RegisterObserver(*this);
     m_Console.RegisterWriteCallback(std::bind(&SaltoCli::Write, this, std::placeholders::_1));
     StartAsyncRead();
     

@@ -33,11 +33,13 @@ private:
     std::string HandleCmdGET(const std::vector<std::string> & vecTokens);
     std::string HandleCmdDELETE(const std::vector<std::string> & vecTokens);
     std::string HandleCmdLIST(const std::vector<std::string> & vecTokens);
-    
+    std::string HandleCmdHIRE(const std::vector<std::string> & vecTokens);
+
     std::vector<std::function<void(const std::string &)>> m_WriteCallbacks;
     
     typedef std::function<std::string(const std::vector<std::string> &)> CommandHandlerFunc;
-    struct cmdStruct{
+    struct cmdStruct
+    {
         size_t nrOfTokens;
         CommandHandlerFunc callback;
         std::string usage;
