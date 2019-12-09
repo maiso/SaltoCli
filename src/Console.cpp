@@ -20,7 +20,7 @@ Console::Console()
     }
     else
     {
-      std::cerr << "Failed to restore data";
+      std::cerr << "Note: Failed to restore data.\n";
     }    
 }
 
