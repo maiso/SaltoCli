@@ -12,24 +12,24 @@ void signalHandler( int signum )
 
 int main(int argc, char* argv[])
 {
-   // register signal SIGINT and signal handler  
-   signal(SIGINT, signalHandler);  
-   
-  try
-  {
-    boost::asio::io_service io;
+    // register signal SIGINT and signal handler  
+    signal(SIGINT, signalHandler);  
 
-    saltoCli = new SaltoCli(io);
-    
-    io.run();
-    
-    delete saltoCli;
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << "Exception: " << e.what() << "\n";
-  }
-  
-  
-  return 0;
+    try
+    {
+        boost::asio::io_service io;
+
+        saltoCli = new SaltoCli(io);
+
+        //io will run as long as there is work to be done.
+        io.run();
+
+        delete saltoCli;
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exception: " << e.what() << "\n";
+    }
+
+    return 0;
 }

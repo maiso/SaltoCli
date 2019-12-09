@@ -12,22 +12,25 @@ Console::Console()
     CommandMap["HIRE"]   = { 1, std::bind(&Console::HandleCmdHIRE,   this, std::placeholders::_1), "HIRE <NAME>", "Who should you hire?"};
     
     //Open the json file to read the variables
-    std::ifstream i("SALTO.json");
     //Note: Improvement would be to put this is sperate class for better error handling.
-    if(i.fail() == false)
+    std::ifstream inFile(strJsonFileName);
+    if(inFile.fail() == false)
     {
-        i >> m_json;
+        inFile >> m_json;
     }
-
+    else
+    {
+      std::cerr << "Failed to restore data";
+    }    
 }
 
 Console::~Console()
 {
     //Open the json file to store the variables
-    std::ofstream o("SALTO.json");
-    if(o.fail() == false)
+    std::ofstream outFile(strJsonFileName);
+    if(outFile.fail() == false)
     {
-      o << m_json;
+      outFile << m_json;
     }
     else
     {
@@ -71,19 +74,21 @@ std::string Console::ParseCommand(const std::vector<std::string> & vecTokens)
     if(vecTokens.size() > 0)
     {
         //In the first token should be the command
-        auto it = CommandMap.find(vecTokens[0]);
+        const std::string  strCommand = vecTokens[0];
+        auto it = CommandMap.find(strCommand);
         if ( it != CommandMap.end() ) 
         {
-          //Check if enough arguments are provided
-          if(it->second.nrOfTokens == vecTokens.size() -1)
-          {
-              std::vector<std::string> vecArguments(vecTokens.begin() + 1, vecTokens.end());
+            std::vector<std::string> vecArguments(vecTokens.begin() + 1, vecTokens.end());
+
+            //Check if enough arguments are provided
+            if(it->second.nrOfTokens == vecArguments.size())
+            {
               strResult = it->second.callback(vecArguments);
-          }
-          else
-          {
+            }
+            else
+            {
                strResult = "Invalid number of arguments.\n Usage:" + it->second.usage;
-          }
+            }
         }
     }
     return strResult;
@@ -91,14 +96,14 @@ std::string Console::ParseCommand(const std::vector<std::string> & vecTokens)
 
 std::string Console::HandleCmdSET(const std::vector<std::string> & vecArguments)
 {
-    std::string strVariable = vecArguments[0];
+    const std::string strVariable = vecArguments[0];
     m_json[strVariable] = vecArguments[1];
     return strVariable + " has ben set to " + vecArguments[1];
 }
 
 std::string Console::HandleCmdGET(const std::vector<std::string> & vecArguments)
 { 
-    std::string strVariable = vecArguments[0];
+    const std::string strVariable = vecArguments[0];
     std::string strResult = "Not Found";
     if (m_json.find(strVariable) != m_json.end()) 
     {
@@ -109,12 +114,11 @@ std::string Console::HandleCmdGET(const std::vector<std::string> & vecArguments)
 
 std::string Console::HandleCmdDELETE(const std::vector<std::string> & vecArguments)
 { 
-    std::string strVariable = vecArguments[0];
+    const std::string strVariable = vecArguments[0];
     std::string strResult = "Not Found";
-    // find an entry
+    
     if (m_json.find(strVariable) != m_json.end()) 
     {
-      // there is an entry with key "foo"
       m_json.erase(strVariable);
       strResult = "erased.";
     }
@@ -136,7 +140,7 @@ std::string Console::HandleCmdLIST(const std::vector<std::string> & vecArguments
 
 std::string Console::HandleCmdHIRE(const std::vector<std::string> & vecArguments)
 { 
-    std::string strVariable = vecArguments[0];
+    const std::string strVariable = vecArguments[0];
     std::string strResult = "Bad choice :( Try again. Hint: Who made this application?";
 
     if (strVariable == "Michiel") 

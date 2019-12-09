@@ -47,6 +47,7 @@ private:
     };
     std::map<std::string, cmdStruct> CommandMap;
 
+    constexpr static const char strJsonFileName[] = "SALTO.json";
     nlohmann::json m_json;
 
 };

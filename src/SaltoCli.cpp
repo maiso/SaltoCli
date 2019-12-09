@@ -45,29 +45,23 @@ void SaltoCli::received_stdin(const boost::system::error_code& error,  std::size
     }
     else
     {
-      close();
+        close();
     }
 }
 
 void SaltoCli::Write(const std::string & sString) 
 {
-    //std::cout << "Look we are going to write stuff";
     //Write the received buffer to stdcout
     boost::asio::async_write(out, boost::asio::buffer(sString),
-      boost::bind(&SaltoCli::async_write_complete, this,
-        boost::asio::placeholders::error));
+      boost::bind(&SaltoCli::async_write_complete, this, boost::asio::placeholders::error));
 }
 
 //Note: This method will be called whenever the async write has completed.
 void SaltoCli::async_write_complete(const boost::system::error_code& error)
 {
-    if (!error)
+    if (error)
     {
-      //Go and wait for the next line to read.
-      // StartAsyncRead();
-    }
-    else
-    {
+        //Didn't succeed to write the data
         close();
     }
 }
